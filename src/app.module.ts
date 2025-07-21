@@ -6,9 +6,17 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { CarsModule } from './cars/cars.module';
 import { RentalsModule } from './rentals/rentals.module';
 import { ReviewsModule } from './reviews/reviews.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
-  imports: [UsersModule, RentalsModule, CarsModule, TransactionsModule, ReviewsModule],
+  imports: [
+    DatabaseModule,
+    UsersModule,
+    RentalsModule,
+    CarsModule,
+    TransactionsModule,
+    ReviewsModule,
+  ],
   controllers: [AppController, AdminController],
   providers: [AppService],
 })

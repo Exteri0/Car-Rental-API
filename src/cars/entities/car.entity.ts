@@ -94,17 +94,4 @@ export class Car extends Model<Car> {
     allowNull: true,
   })
   image_url: string;
-
-  @Column({
-    type: 'TIMESTAMP',
-    defaultValue: () => 'CURRENT_TIMESTAMP',
-  })
-  created_at: Date;
-
-  @Column({
-    type: 'TIMESTAMP',
-    defaultValue: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  updated_at: Date;
 }

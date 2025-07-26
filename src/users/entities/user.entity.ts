@@ -24,6 +24,7 @@ export class User extends Model {
   @Column({
     type: 'VARCHAR(255)',
     allowNull: false,
+    unique: true,
   })
   phone_number: string;
 

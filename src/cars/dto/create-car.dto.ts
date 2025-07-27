@@ -12,13 +12,16 @@ export class CreateCarDto {
   @IsNotEmpty()
   year: number;
   //TODO: Change it and use aggregation
+  @IsNumber()
   @IsNotEmpty()
   type_id: number;
 
+  @IsNumber()
   @IsNotEmpty()
   transmission_id: number;
   //TODO: Same thing
   @IsNotEmpty()
+  @IsNumber()
   fuel_id: number;
 
   @IsNumber()

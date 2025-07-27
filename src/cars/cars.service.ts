@@ -1,26 +1,68 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
+import { Car } from './entities/car.entity';
+import { InjectModel } from '@nestjs/sequelize';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class CarsService {
-  create(createCarDto: CreateCarDto) {
-    return 'This action adds a new car';
+  constructor(@InjectModel(Car) private readonly carModel: typeof Car) {}
+
+  // TODO: Implement upload image before putting the url in the database
+  async create(createCarDto: CreateCarDto): Promise<Car> {
+    const car = await this.carModel.findOne({
+      where: { plate_number: createCarDto.plate_number },
+    });
+    if (car)
+      throw new ConflictException(
+        `Car with plate number ${createCarDto.plate_number} already exists`,
+      );
+    const createdCar = await this.carModel.create<Car>({ ...createCarDto });
+    return createdCar;
   }
 
-  findAll() {
-    return `This action returns all cars`;
+  async findAll(): Promise<Car[]> {
+    return await this.carModel.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} car`;
+  async findOne(id: number): Promise<Car | null> {
+    const car = await this.carModel.findByPk(id);
+    if (!car) throw new NotFoundException(`Car with id ${id} not found`);
+    return car;
   }
 
-  update(id: number, updateCarDto: UpdateCarDto) {
-    return `This action updates a #${id} car`;
+  async update(id: number, updateCarDto: UpdateCarDto): Promise<Car> {
+    // check if the id exists first
+    await this.findOne(id);
+    // check if the plate number already exists somewhere else
+    if (updateCarDto.plate_number) {
+      const potentialConflictCar = await this.carModel.findOne({
+        where: {
+          plate_number: updateCarDto.plate_number,
+          car_id: { [Op.ne]: id },
+        },
+      });
+      if (potentialConflictCar)
+        throw new ConflictException(
+          `Car with plate number ${updateCarDto.plate_number} already exists`,
+        );
+    }
+    await this.carModel.update(updateCarDto, {
+      where: { id },
+    });
+    const updatedCar: Car = (await this.findOne(id)) as unknown as Car;
+    return updatedCar;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} car`;
+  async remove(id: number): Promise<number> {
+    //check if the id exists
+    const car = await this.findOne(id);
+    if (!car) throw new NotFoundException(`Car with id ${id} not found`);
+    return await this.carModel.destroy({ where: { id } });
   }
 }

@@ -8,5 +8,6 @@ import { SequelizeModule } from '@nestjs/sequelize';
   imports: [SequelizeModule.forFeature([Car])],
   controllers: [CarsController],
   providers: [CarsService],
+  exports: [CarsService], // Export CarsService and Car model for use in other modules
 })
 export class CarsModule {}

@@ -8,5 +8,8 @@ import { User } from './entities/user.entity';
   imports: [SequelizeModule.forFeature([User])],
   controllers: [UsersController],
   providers: [UsersService],
+  exports: [UsersService], // Export UsersService if needed in other modules
+  // If you need to export User model for use in other modules, uncomment the line below
+  // exports: [UsersService, User],
 })
 export class UsersModule {}

@@ -12,13 +12,6 @@ import { Fuel } from './fuel.entity';
 @Table
 export class Car extends Model {
   @Column({
-    type: 'INTEGER',
-    autoIncrement: true,
-    primaryKey: true,
-  })
-  car_id: number;
-
-  @Column({
     type: 'VARCHAR(50)',
     allowNull: false,
   })

@@ -11,6 +11,7 @@ import { Op } from 'sequelize';
 import { CarType } from './entities/car-type.entity';
 import { Transmission } from './entities/transmission.entity';
 import { Fuel } from './entities/fuel.entity';
+import { UpdateCarDbDto } from './dto/update-car-db.dto';
 
 @Injectable()
 export class CarsService {
@@ -42,14 +43,15 @@ export class CarsService {
       where: { name: createCarDto.fuel },
     });
 
-    const carData = {
+    const createdCar = await this.carModel.create<Car>({
       ...createCarDto,
       type_id: carType.id,
       transmission_id: transmission.id,
       fuel_id: fuel.id,
-    };
-
-    const createdCar = await this.carModel.create<Car>(carData);
+      type: undefined,
+      transmission: undefined,
+      fuel: undefined,
+    });
     return createdCar;
   }
 
@@ -71,7 +73,7 @@ export class CarsService {
       const potentialConflictCar = await this.carModel.findOne({
         where: {
           plate_number: updateCarDto.plate_number,
-          car_id: { [Op.ne]: id },
+          id: { [Op.ne]: id },
         },
       });
       if (potentialConflictCar)
@@ -79,7 +81,27 @@ export class CarsService {
           `Car with plate number ${updateCarDto.plate_number} already exists`,
         );
     }
-    await this.carModel.update(updateCarDto, {
+    const updatedCarDb: UpdateCarDbDto = updateCarDto as UpdateCarDbDto;
+    if (updateCarDto.type) {
+      const [carType] = await this.carTypeModel.findOrCreate({
+        where: { name: updateCarDto.type },
+      });
+      updatedCarDb.type_id = carType.id as string; // ❌ CreateCarDto doesn't have type_id
+    }
+    if (updateCarDto.transmission) {
+      const [transmission] = await this.transmissionModel.findOrCreate({
+        where: { name: updateCarDto.transmission },
+      });
+      updatedCarDb.transmission_id = transmission.id as string;
+    }
+    if (updateCarDto.fuel) {
+      const [fuel] = await this.fuelModel.findOrCreate({
+        where: { name: updateCarDto.fuel },
+      });
+      updatedCarDb.fuel_id = fuel.id as string;
+    }
+
+    await this.carModel.update(updatedCarDb, {
       where: { id },
     });
     const updatedCar: Car = (await this.findOne(id)) as unknown as Car;

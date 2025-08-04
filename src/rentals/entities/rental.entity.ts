@@ -15,7 +15,7 @@ export class Rental extends Model {
     type: DataType.INTEGER,
     references: {
       model: 'cars', // Target table name
-      key: 'car_id',
+      key: 'id',
     },
   })
   @ForeignKey(() => Car)

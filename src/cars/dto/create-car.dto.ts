@@ -1,4 +1,14 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsUrl,
+  Max,
+  Min,
+  IsPositive,
+  IsOptional,
+} from 'class-validator';
 export class CreateCarDto {
   @IsString()
   @IsNotEmpty()
@@ -10,26 +20,30 @@ export class CreateCarDto {
 
   @IsNumber()
   @IsNotEmpty()
+  @Min(1900)
+  @Max(2025)
   year: number;
-  // TODO: Change it and use aggregation
-  @IsNumber()
+
+  @IsString()
   @IsNotEmpty()
-  type_id: number;
-  // TODO: Change it and use aggregation
-  @IsNumber()
+  type: string;
+
+  @IsString()
   @IsNotEmpty()
-  transmission_id: number;
-  // TODO: Same thing
+  transmission: string;
+
+  @IsString()
   @IsNotEmpty()
-  @IsNumber()
-  fuel_id: number;
+  fuel: string;
 
   @IsNumber()
   @IsNotEmpty()
+  @Min(1)
   seats: number;
 
   @IsNotEmpty()
   @IsNumber()
+  @IsPositive()
   daily_price: number;
 
   @IsBoolean()
@@ -45,11 +59,16 @@ export class CreateCarDto {
   plate_number: string;
 
   @IsNumber()
+  @Min(0)
+  @IsOptional()
   mileage: number;
 
   @IsString()
+  @IsOptional()
   description: string;
 
   @IsString()
+  @IsUrl()
+  @IsOptional()
   image_url: string;
 }

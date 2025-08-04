@@ -15,7 +15,7 @@ export class Rental extends Model {
     type: DataType.INTEGER,
     references: {
       model: 'cars', // Target table name
-      key: 'id',
+      key: 'car_id',
     },
   })
   @ForeignKey(() => Car)
@@ -51,6 +51,7 @@ export class Rental extends Model {
 
   @Column({
     allowNull: false,
+    type: DataType.DECIMAL(10, 2),
   })
   total_price: number;
 

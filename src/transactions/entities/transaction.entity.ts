@@ -2,12 +2,15 @@ import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
 @Table
 export class Transaction extends Model {
-  @Column
+  @Column({
+    allowNull: false,
+    type: DataType.DECIMAL(10, 2),
+  })
   amount: number;
 
   @Column({
     allowNull: false,
-    type: DataType.STRING,
+    type: DataType.INTEGER,
     references: {
       model: 'users', // Target table name
       key: 'id',

@@ -1,4 +1,13 @@
-import { Table, Column, Model } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  ForeignKey,
+  BelongsTo,
+} from 'sequelize-typescript';
+import { CarType } from './car-type.entity';
+import { Transmission } from './transmission.entity';
+import { Fuel } from './fuel.entity';
 
 @Table
 export class Car extends Model {
@@ -27,23 +36,35 @@ export class Car extends Model {
   })
   year: number;
 
+  @ForeignKey(() => CarType)
   @Column({
     type: 'INTEGER',
     allowNull: false,
   })
   type_id: number;
 
+  @BelongsTo(() => CarType)
+  type: CarType;
+
+  @ForeignKey(() => Transmission)
   @Column({
     type: 'INTEGER',
     allowNull: false,
   })
   transmission_id: number;
 
+  @BelongsTo(() => Transmission)
+  transmission: Transmission;
+
+  @ForeignKey(() => Fuel)
   @Column({
     type: 'INTEGER',
     allowNull: false,
   })
   fuel_id: number;
+
+  @BelongsTo(() => Fuel)
+  fuel: Fuel;
 
   @Column({
     type: 'INTEGER',

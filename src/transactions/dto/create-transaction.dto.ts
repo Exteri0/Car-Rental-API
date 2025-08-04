@@ -7,6 +7,7 @@ import {
 } from 'class-validator';
 
 export class CreateTransactionDto {
+  // This should be calculated by the server based on the rental
   @IsNumber()
   @IsNotEmpty()
   amount: number;
@@ -24,6 +25,7 @@ export class CreateTransactionDto {
   @IsPositive()
   rental_id: number;
 
+  // This should come from the authenticated user (e.g. JWT payload)
   @IsNumber()
   @IsNotEmpty()
   @IsPositive()

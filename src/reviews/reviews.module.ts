@@ -3,10 +3,10 @@ import { ReviewsService } from './reviews.service';
 import { ReviewsController } from './reviews.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Review } from './entities/review.entity';
-import { UsersService } from '@/users/users.service';
-import { RentalsService } from '@/rentals/rentals.service';
+import { RentalsModule } from '@/rentals/rentals.module';
+import { UsersModule } from '@/users/users.module';
 @Module({
-  imports: [SequelizeModule.forFeature([Review]), RentalsService, UsersService],
+  imports: [SequelizeModule.forFeature([Review]), RentalsModule, UsersModule],
   controllers: [ReviewsController],
   providers: [ReviewsService],
 })

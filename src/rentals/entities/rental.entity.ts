@@ -44,8 +44,13 @@ export class Rental extends Model {
 
   @Column({
     allowNull: false,
-    type: 'ENUM',
-    values: ['pending', 'confirmed', 'cancelled', 'active', 'completed'],
+    type: DataType.ENUM(
+      'pending',
+      'confirmed',
+      'cancelled',
+      'active',
+      'completed',
+    ),
   })
   status: 'pending' | 'confirmed' | 'cancelled' | 'active' | 'completed';
 

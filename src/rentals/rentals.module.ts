@@ -3,11 +3,11 @@ import { RentalsService } from './rentals.service';
 import { RentalsController } from './rentals.controller';
 import { Rental } from './entities/rental.entity';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UsersService } from '@/users/users.service';
-import { CarsService } from '@/cars/cars.service';
+import { UsersModule } from '@/users/users.module';
+import { CarsModule } from '@/cars/cars.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Rental]), UsersService, CarsService],
+  imports: [SequelizeModule.forFeature([Rental]), UsersModule, CarsModule],
   controllers: [RentalsController],
   providers: [RentalsService],
   exports: [RentalsService],

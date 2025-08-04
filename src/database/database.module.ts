@@ -9,13 +9,23 @@ import { Rental } from '@/rentals/entities/rental.entity';
 import { Transmission } from '@/cars/entities/transmission.entity';
 import { Fuel } from '@/cars/entities/fuel.entity';
 import { Transaction } from '@/transactions/entities/transaction.entity';
+import { CarType } from '@/cars/entities/car-type.entity';
 dotenv.config();
 
 @Module({
   imports: [
     SequelizeModule.forRoot({
       ...databaseConfig,
-      models: [User, Car, Review, Rental, Transmission, Fuel, Transaction],
+      models: [
+        User,
+        Car,
+        Review,
+        Rental,
+        Transmission,
+        Fuel,
+        Transaction,
+        CarType,
+      ],
       logging: console.log,
       define: {
         underscored: true,

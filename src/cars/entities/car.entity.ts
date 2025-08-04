@@ -33,6 +33,10 @@ export class Car extends Model {
   @Column({
     type: 'INTEGER',
     allowNull: false,
+    references: {
+      model: 'CarType',
+      key: 'id',
+    },
   })
   type_id: number;
 
@@ -43,6 +47,10 @@ export class Car extends Model {
   @Column({
     type: 'INTEGER',
     allowNull: false,
+    references: {
+      model: 'Transmission',
+      key: 'id',
+    },
   })
   transmission_id: number;
 
@@ -53,6 +61,10 @@ export class Car extends Model {
   @Column({
     type: 'INTEGER',
     allowNull: false,
+    references: {
+      model: 'Fuel',
+      key: 'id',
+    },
   })
   fuel_id: number;
 

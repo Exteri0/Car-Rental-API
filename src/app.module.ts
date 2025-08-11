@@ -7,6 +7,7 @@ import { CarsModule } from './cars/cars.module';
 import { RentalsModule } from './rentals/rentals.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { DatabaseModule } from './database/database.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { DatabaseModule } from './database/database.module';
     CarsModule,
     TransactionsModule,
     ReviewsModule,
+    AuthModule,
   ],
   controllers: [AppController, AdminController],
   providers: [AppService],

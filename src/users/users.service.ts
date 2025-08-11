@@ -157,4 +157,9 @@ export class UsersService {
       });
     }
   }
+
+  // for login
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.userModel.findOne({ where: { email } });
+  }
 }

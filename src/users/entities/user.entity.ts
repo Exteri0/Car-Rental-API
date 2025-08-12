@@ -1,5 +1,14 @@
-import { Column, Table, Model } from 'sequelize-typescript';
+import { Plain } from '@/common/types/plain.types';
+import { Column, Table, Model, Scopes } from 'sequelize-typescript';
 
+@Scopes(() => ({
+  defaultScope: {
+    attributes: { exclude: ['password_hash'] },
+  },
+  withPassword: {
+    attributes: { include: ['password_hash'] },
+  },
+}))
 @Table
 export class User extends Model {
   @Column({
@@ -35,3 +44,7 @@ export class User extends Model {
   })
   driver_license_number: string;
 }
+
+export type UserWithPassword = Plain<User>;
+
+export type UserPublic = Omit<UserWithPassword, 'password_hash'>;

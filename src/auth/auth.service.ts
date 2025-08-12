@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   async validateUser(loginAuthDto: LoginAuthDto) {
     const user = await this.usersService.findByEmail(loginAuthDto.email);
@@ -19,6 +19,9 @@ export class AuthService {
     if (!isPasswordValid) {
       return null;
     }
-    return user;
+    // Exclude password_hash before returning user
+    const { password_hash, ...userWithoutPassword } = user;
+
+    return userWithoutPassword;
   }
 }

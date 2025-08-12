@@ -1,30 +1,17 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
+import { Controller, Post, UseGuards, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginAuthDto } from './dto/login-auth.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from '@/users/entities/user.entity';
+import { Plain } from '@/common/types/plain.types';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { AuthUser } from '@/common/decorators/User.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(LocalAuthGuard)
   @Post()
-  create(@Request() req): User {
-    return req.user as User;
-  }
-  @Post()
-  login(@Body() loginAuthDto: LoginAuthDto) {
-    return this.authService.validateUser(loginAuthDto);
+  login(@AuthUser() user: Plain<User>): Plain<User> {
+    return user;
   }
 }

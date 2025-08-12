@@ -158,8 +158,10 @@ export class UsersService {
     }
   }
 
-  // for login
+  // for login, we need to include password
   async findByEmail(email: string): Promise<User | null> {
-    return await this.userModel.findOne({ where: { email } });
+    return await this.userModel
+      .scope('withPassword')
+      .findOne({ where: { email } });
   }
 }

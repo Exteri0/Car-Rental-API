@@ -11,6 +11,7 @@ export const AuthUser = createParamDecorator(
       | UserPublic
       | undefined;
 
+    console.log('got user', user);
     if (!user) {
       return undefined;
     }

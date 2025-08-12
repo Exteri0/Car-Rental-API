@@ -33,7 +33,7 @@ dotenv.config();
       },
       synchronize: true,
       sync: {
-        force: process.env.NODE_ENV === 'development',
+        // force: process.env.NODE_ENV === 'development',
         // alter: process.env.NODE_ENV === 'development',
       }, // This will drop and recreate tables every time
       autoLoadModels: true,

@@ -6,7 +6,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { User } from './entities/user.entity';
+import { User, UserWithPassword } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { Op } from 'sequelize';
 
@@ -159,9 +159,14 @@ export class UsersService {
   }
 
   // for login, we need to include password
-  async findByEmail(email: string): Promise<User | null> {
-    return await this.userModel
+  async findByEmail(email: string): Promise<UserWithPassword | null> {
+    const user = await this.userModel
       .scope('withPassword')
       .findOne({ where: { email } });
+    if (user) {
+      const userData = user.get({ plain: true }) as UserWithPassword;
+      return userData;
+    }
+    return null;
   }
 }

@@ -18,6 +18,7 @@ export class AuthService {
     if (!user) {
       return null;
     }
+    console.log('found this user before bcrypting', user);
     const isPasswordValid = await bcrypt.compare(
       loginAuthDto.password,
       user.password_hash,

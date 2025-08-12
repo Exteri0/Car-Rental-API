@@ -11,6 +11,8 @@ import { Column, Table, Model, Scopes } from 'sequelize-typescript';
 }))
 @Table
 export class User extends Model {
+  declare id: number;
+
   @Column({
     type: 'VARCHAR(255)',
     allowNull: false,

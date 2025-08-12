@@ -11,7 +11,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post()
-  login(@AuthUser() user: Plain<User>): Plain<User> {
-    return user;
+  login(@AuthUser() user: Plain<User>) {
+    return this.authService.login(user);
   }
 }
